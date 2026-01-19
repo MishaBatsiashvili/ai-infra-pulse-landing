@@ -5,13 +5,9 @@ import {
   Text,
   VStack,
   HStack,
-  Badge,
   Divider,
   SimpleGrid,
 } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
-
-const MotionBox = motion(Box)
 
 // Signal strength indicator
 const SignalDot = ({ strength }: { strength: 'strong' | 'mixed' | 'weak' }) => {
@@ -27,82 +23,69 @@ const SignalDot = ({ strength }: { strength: 'strong' | 'mixed' | 'weak' }) => {
       borderRadius="full"
       bg={colors[strength]}
       flexShrink={0}
+      aria-label={`${strength} signal`}
     />
   )
 }
 
 export default function ExampleDigest() {
   return (
-    <MotionBox
+    <Box
       bg="rgba(15, 15, 20, 0.9)"
       border="1px solid"
       borderColor="gray.800"
-      borderRadius="xl"
-      p={{ base: 5, md: 6 }}
-      maxW="650px"
+      borderRadius="lg"
+      p={{ base: 4, md: 5 }}
+      maxW="600px"
       mx="auto"
-      position="relative"
-      overflow="hidden"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      fontSize="sm"
+      aria-label="Example digest preview"
     >
-      <VStack align="stretch" spacing={5} position="relative">
+      <VStack align="stretch" spacing={4}>
         {/* Header */}
         <HStack justify="space-between" align="flex-start" flexWrap="wrap" gap={2}>
           <Box>
-            <Text color="gray.500" fontSize="xs" mb={1.5} letterSpacing="wide">
+            <Text color="gray.500" fontSize="xs" letterSpacing="wide">
               AI INFRA PULSE · Jan 19, 2026
             </Text>
-            <HStack spacing={3}>
-              <Badge 
-                bg="rgba(34, 197, 94, 0.1)" 
-                color="green.400" 
-                fontSize="xs"
-                px={2}
-                py={0.5}
-                borderRadius="md"
-                fontWeight="500"
-              >
-                🟢 Score: 8/10
-              </Badge>
-              <Text fontSize="xs" color="gray.500">
-                Bullish · Near-term
-              </Text>
-            </HStack>
           </Box>
+          <HStack spacing={3} fontSize="xs">
+            <HStack spacing={1}>
+              <Text color="green.400">🟢 8/10</Text>
+            </HStack>
+            <Text color="gray.500">Bullish · Near-term</Text>
+          </HStack>
         </HStack>
 
         {/* Summary */}
         <Box
           bg="rgba(255,255,255,0.02)"
-          borderRadius="lg"
-          p={4}
+          borderRadius="md"
+          p={3}
           borderLeft="2px solid"
-          borderColor="cyan.800"
+          borderColor="gray.700"
         >
-          <Text fontSize="sm" color="gray.300" lineHeight="1.7">
-            The AI infrastructure market shows strong growth signals, particularly in foundry and memory sectors. However, regulatory risks from U.S.-China tensions and Nvidia's supply constraints introduce uncertainty.
+          <Text color="gray.300" lineHeight="1.7">
+            Strong signals in foundry and memory. Regulatory uncertainty elevated. TSMC capex expansion is the headline. Watch Nvidia supply constraints.
           </Text>
         </Box>
 
         {/* TL;DR */}
         <Box>
-          <Text fontSize="xs" fontWeight="600" color="gray.500" textTransform="uppercase" letterSpacing="wider" mb={3}>
+          <Text fontSize="xs" fontWeight="500" color="gray.500" textTransform="uppercase" letterSpacing="wide" mb={2}>
             Quick take
           </Text>
-          <VStack align="stretch" spacing={2}>
+          <VStack align="stretch" spacing={1}>
             {[
-              { topic: 'AI chip demand', signal: 'strong growth signals' },
-              { topic: 'Nvidia supply', signal: 'risk from regulatory issues' },
-              { topic: 'Foundry investments', signal: 'TSMC capex expansion is bullish' },
+              { topic: 'AI chip demand', signal: 'strong growth signals', positive: true },
+              { topic: 'Nvidia supply', signal: 'regulatory risk', positive: false },
+              { topic: 'TSMC capex', signal: 'bullish expansion', positive: true },
             ].map((item, i) => (
-              <HStack key={i} fontSize="sm" spacing={2}>
+              <HStack key={i} fontSize="xs" spacing={2}>
                 <Text color="gray.500">If you care about</Text>
                 <Text color="white" fontWeight="500">{item.topic}</Text>
                 <Text color="gray.500">→</Text>
-                <Text color="gray.300">{item.signal}</Text>
+                <Text color={item.positive ? 'green.400' : 'red.400'}>{item.signal}</Text>
               </HStack>
             ))}
           </VStack>
@@ -110,25 +93,22 @@ export default function ExampleDigest() {
 
         <Divider borderColor="gray.800" />
 
-        {/* Signal Sources */}
+        {/* Signal Sources Grid */}
         <Box>
-          <Text fontSize="xs" fontWeight="600" color="gray.500" textTransform="uppercase" letterSpacing="wider" mb={3}>
+          <Text fontSize="xs" fontWeight="500" color="gray.500" textTransform="uppercase" letterSpacing="wide" mb={2}>
             Signal sources
           </Text>
           <SimpleGrid columns={2} spacing={2}>
             {[
-              { name: 'Memory', strength: 'strong' as const, note: 'capex expanding' },
+              { name: 'Memory', strength: 'strong' as const, note: 'capex up' },
               { name: 'Foundry', strength: 'strong' as const, note: 'earnings beat' },
-              { name: 'GPU', strength: 'weak' as const, note: 'supply constraints' },
-              { name: 'Data Center', strength: 'mixed' as const, note: 'regulatory risks' },
-              { name: 'Regulation', strength: 'weak' as const, note: 'elevated risks' },
-              { name: 'Macro', strength: 'mixed' as const, note: 'geopolitical tension' },
+              { name: 'GPU', strength: 'weak' as const, note: 'supply tight' },
+              { name: 'Regulation', strength: 'weak' as const, note: 'US-China risk' },
             ].map((item, i) => (
               <HStack key={i} spacing={2} fontSize="xs">
                 <SignalDot strength={item.strength} />
                 <Text color="gray.400">{item.name}</Text>
-                <Text color="gray.600">·</Text>
-                <Text color="gray.500">{item.note}</Text>
+                <Text color="gray.600">· {item.note}</Text>
               </HStack>
             ))}
           </SimpleGrid>
@@ -139,43 +119,25 @@ export default function ExampleDigest() {
         {/* What Changed / Positive / Negative */}
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
           <Box>
-            <Text fontSize="xs" fontWeight="600" color="cyan.500" mb={2}>
-              What changed
-            </Text>
-            <VStack align="stretch" spacing={1.5}>
-              {[
-                'OpenAI $10B Cerebras deal',
-                'TSMC record profit surge',
-                'SK Hynix accelerates fab',
-              ].map((item, i) => (
+            <Text fontSize="xs" fontWeight="500" color="cyan.500" mb={1.5}>What changed</Text>
+            <VStack align="stretch" spacing={0.5}>
+              {['OpenAI $10B Cerebras deal', 'TSMC record profit', 'SK Hynix accelerates fab'].map((item, i) => (
                 <Text key={i} fontSize="xs" color="gray.400">• {item}</Text>
               ))}
             </VStack>
           </Box>
           <Box>
-            <Text fontSize="xs" fontWeight="600" color="green.400" mb={2}>
-              Positive signals
-            </Text>
-            <VStack align="stretch" spacing={1.5}>
-              {[
-                'TSMC $250B US investment',
-                'Strong AI chip demand',
-                'Higgsfield $1.3B valuation',
-              ].map((item, i) => (
+            <Text fontSize="xs" fontWeight="500" color="green.400" mb={1.5}>Positive</Text>
+            <VStack align="stretch" spacing={0.5}>
+              {['TSMC $250B US invest', 'Strong AI chip demand', 'Higgsfield $1.3B raise'].map((item, i) => (
                 <Text key={i} fontSize="xs" color="gray.400">• {item}</Text>
               ))}
             </VStack>
           </Box>
           <Box>
-            <Text fontSize="xs" fontWeight="600" color="red.400" mb={2}>
-              Negative signals
-            </Text>
-            <VStack align="stretch" spacing={1.5}>
-              {[
-                'Nvidia H200 production halt',
-                'China customs Nvidia ban',
-                'US-China regulatory risk',
-              ].map((item, i) => (
+            <Text fontSize="xs" fontWeight="500" color="red.400" mb={1.5}>Negative</Text>
+            <VStack align="stretch" spacing={0.5}>
+              {['Nvidia H200 halt', 'China customs ban', 'Regulatory overhang'].map((item, i) => (
                 <Text key={i} fontSize="xs" color="gray.400">• {item}</Text>
               ))}
             </VStack>
@@ -184,52 +146,13 @@ export default function ExampleDigest() {
 
         <Divider borderColor="gray.800" />
 
-        {/* Watch / Not Happening */}
-        <HStack align="flex-start" spacing={6} flexWrap="wrap">
-          <Box flex={1} minW="200px">
-            <Text fontSize="xs" fontWeight="600" color="purple.400" mb={2}>
-              Watch next
-            </Text>
-            <VStack align="stretch" spacing={1}>
-              {[
-                'TSMC earnings report',
-                'US-China tech developments',
-                'Nvidia supply response',
-              ].map((item, i) => (
-                <Text key={i} fontSize="xs" color="gray.400">→ {item}</Text>
-              ))}
-            </VStack>
-          </Box>
-          <Box flex={1} minW="200px">
-            <Text fontSize="xs" fontWeight="600" color="gray.500" mb={2}>
-              Not happening yet
-            </Text>
-            <VStack align="stretch" spacing={1}>
-              {[
-                'No major order cancellations',
-                'No significant capacity cuts',
-              ].map((item, i) => (
-                <Text key={i} fontSize="xs" color="gray.500">○ {item}</Text>
-              ))}
-            </VStack>
-          </Box>
-        </HStack>
-
-        <Divider borderColor="gray.800" />
-
-        {/* Footer */}
-        <HStack justify="space-between" fontSize="xs" color="gray.500">
-          <Text>
-            <Text as="span" color="gray.400">Confidence:</Text> Medium
-          </Text>
-          <Text>
-            <Text as="span" color="gray.400">Horizon:</Text> Near-term (weeks)
-          </Text>
-          <Text>
-            <Text as="span" color="gray.400">Noise:</Text> Elevated
-          </Text>
+        {/* Footer meta */}
+        <HStack justify="space-between" fontSize="xs" color="gray.500" flexWrap="wrap" gap={2}>
+          <Text><Text as="span" color="gray.400">Confidence:</Text> Medium</Text>
+          <Text><Text as="span" color="gray.400">Horizon:</Text> Near-term</Text>
+          <Text><Text as="span" color="gray.400">Noise:</Text> Elevated</Text>
         </HStack>
       </VStack>
-    </MotionBox>
+    </Box>
   )
 }

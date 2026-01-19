@@ -10,10 +10,6 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
-import { motion } from 'framer-motion'
-
-const MotionBox = motion(Box)
-const MotionButton = motion(Button)
 
 const pulse = keyframes`
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -28,96 +24,52 @@ export default function Navbar() {
   }, [])
 
   const scrollToSection = (id: string) => {
-    if (typeof window !== 'undefined') {
-      const element = document.getElementById(id)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-  }
-
-  if (!mounted) {
-    return (
-      <Box
-        as="nav"
-        position="sticky"
-        top={0}
-        zIndex={100}
-        bg="rgba(10, 10, 15, 0.9)"
-        backdropFilter="blur(12px)"
-        borderBottom="1px"
-        borderColor="gray.900"
-        py={3}
-      >
-        <Container maxW="960px">
-          <Flex justify="space-between" align="center">
-            <HStack spacing={2}>
-              <Box w={2} h={2} borderRadius="full" bg="cyan.400" />
-              <Text fontWeight="600" fontSize="md" color="white">
-                AI Infra Pulse
-              </Text>
-            </HStack>
-            <Button 
-              size="sm" 
-              variant="outline"
-              color="gray.300"
-              borderColor="gray.700"
-            >
-              Join waitlist
-            </Button>
-          </Flex>
-        </Container>
-      </Box>
-    )
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <MotionBox
+    <Box
       as="nav"
       position="sticky"
       top={0}
       zIndex={100}
-      bg="rgba(10, 10, 15, 0.85)"
+      bg="rgba(10, 10, 15, 0.9)"
       backdropFilter="blur(12px)"
-      borderBottom="1px"
+      borderBottom="1px solid"
       borderColor="gray.900"
       py={3}
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      role="navigation"
+      aria-label="Main navigation"
     >
       <Container maxW="960px">
         <Flex justify="space-between" align="center">
-          <HStack spacing={2}>
+          <HStack spacing={2} as="a" href="/" aria-label="AI Infra Pulse home">
             <Box
               w={2}
               h={2}
               borderRadius="full"
               bg="cyan.400"
-              animation={`${pulse} 2s ease-in-out infinite`}
-              boxShadow="0 0 10px rgba(6, 182, 212, 0.8)"
+              animation={mounted ? `${pulse} 2s ease-in-out infinite` : undefined}
             />
             <Text fontWeight="600" fontSize="md" color="white">
               AI Infra Pulse
             </Text>
           </HStack>
-          <MotionButton
+          <Button
             size="sm"
-            variant="outline"
-            color="gray.300"
-            borderColor="gray.700"
-            _hover={{ 
-              borderColor: 'cyan.700',
-              bg: 'rgba(6, 182, 212, 0.05)'
-            }}
+            bg="white"
+            color="gray.900"
+            fontWeight="500"
+            borderRadius="md"
+            _hover={{ bg: 'gray.100' }}
+            _focus={{ boxShadow: '0 0 0 2px white' }}
             onClick={() => scrollToSection('pricing')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            aria-label="Start free trial"
           >
-            Join waitlist
-          </MotionButton>
+            Try free
+          </Button>
         </Flex>
       </Container>
-    </MotionBox>
+    </Box>
   )
 }
