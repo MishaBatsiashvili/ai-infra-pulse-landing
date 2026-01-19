@@ -187,12 +187,19 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                bgGradient="linear(to-r, white 0%, cyan.200 50%, white 100%)"
-                bgClip="text"
-                backgroundSize="200% auto"
-                animation={`${shimmer} 8s linear infinite`}
               >
-                A calm, daily signal on whether the AI infrastructure story is still holding together.
+                Too much AI{' '}
+                <Text as="span" color="gray.500">noise.</Text>
+                <br/>
+                 Not enough{' '}
+                <Text 
+                  as="span" 
+                  bgGradient="linear(to-r, cyan.400, cyan.200)"
+                  bgClip="text"
+                >
+                  signal
+                </Text>
+                .
               </MotionHeading>
             ) : (
               <Heading
@@ -202,7 +209,11 @@ export default function Home() {
                 lineHeight="1.1"
                 color="white"
               >
-                A calm, daily signal on whether the AI infrastructure story is still holding together.
+                Too much AI{' '}
+                <Text as="span" color="gray.500">noise</Text>
+                . Not enough{' '}
+                <Text as="span" color="cyan.400">signal</Text>
+                .
               </Heading>
             )}
             {mounted ? (
@@ -215,7 +226,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Cuts through AI hype and shows what's actually changing upstream — memory, compute, data centers, and regulation. No predictions. No trading advice. Just a clear signal, once a day.
+                We filter through the hype and send you one calm summary each day — what's changing in compute, memory, data centers, and regulation. Takes 2 minutes to read.
               </MotionText>
             ) : (
               <Text
@@ -224,41 +235,49 @@ export default function Home() {
                 lineHeight="1.8"
                 maxW="640px"
               >
-                Cuts through AI hype and shows what's actually changing upstream — memory, compute, data centers, and regulation. No predictions. No trading advice. Just a clear signal, once a day.
+                We filter through the hype and send you one calm summary each day — what's changing in compute, memory, data centers, and regulation. Takes 2 minutes to read.
               </Text>
             )}
             <Box>
-              <HStack spacing={4} pt={6} flexWrap="wrap" justify="center">
+              <HStack spacing={4} pt={8} flexWrap="wrap" justify="center">
                 <Button
                   size="lg"
-                  bg="cyan.500"
-                  color="white"
+                  bg="white"
+                  color="gray.900"
+                  px={8}
+                  py={6}
+                  borderRadius="full"
+                  fontWeight="500"
+                  fontSize="md"
                   _hover={{ 
-                    bg: 'cyan.400', 
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 0 30px rgba(6, 182, 212, 0.5)'
+                    transform: 'translateY(-1px)',
+                    boxShadow: '0 10px 40px rgba(255, 255, 255, 0.15)'
+                  }}
+                  _active={{
+                    transform: 'translateY(0)',
                   }}
                   onClick={() => scrollToSection('pricing')}
-                  transition="all 0.3s"
-                  animation={mounted ? `${glow} 3s ease-in-out infinite` : undefined}
-                  fontWeight="600"
+                  transition="all 0.2s ease"
                 >
-                  Get the daily pulse
+                  Try it out
                 </Button>
                 <Button
                   size="lg"
-                  variant="outline"
-                  color="gray.300"
-                  borderColor="gray.700"
+                  variant="ghost"
+                  color="gray.400"
+                  px={8}
+                  py={6}
+                  borderRadius="full"
+                  fontWeight="500"
+                  fontSize="md"
                   _hover={{ 
-                    bg: 'rgba(255,255,255,0.05)', 
-                    transform: 'translateY(-2px)',
-                    borderColor: 'cyan.700'
+                    color: 'white',
+                    bg: 'rgba(255,255,255,0.05)'
                   }}
                   onClick={() => scrollToSection('example')}
-                  transition="all 0.3s"
+                  transition="all 0.2s ease"
                 >
-                  See an example digest
+                  See an example
                 </Button>
               </HStack>
             </Box>
@@ -455,7 +474,7 @@ export default function Home() {
       </Box>
 
       {/* Pricing */}
-      <Box as="section" id="pricing" py={{ base: 12, md: 16 }} bg="#0a0a0f" position="relative">
+      <Box as="section" id="pricing" py={{ base: 12, md: 20 }} bg="#0a0a0f" position="relative">
         <Box
           position="absolute"
           top={0}
@@ -464,20 +483,20 @@ export default function Home() {
           height="1px"
           bgGradient="linear(to-r, transparent 0%, gray.800 50%, transparent 100%)"
         />
-        {/* Glow effect behind pricing card */}
+        {/* Subtle glow */}
         <Box
           position="absolute"
           top="50%"
           left="50%"
           transform="translate(-50%, -50%)"
-          width="400px"
-          height="400px"
-          bg="radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%)"
+          width="500px"
+          height="500px"
+          bg="radial-gradient(circle, rgba(6, 182, 212, 0.05) 0%, transparent 70%)"
           pointerEvents="none"
         />
-        <Container maxW="960px" position="relative">
-          <VStack spacing={8}>
-            <Box textAlign="center">
+        <Container maxW="900px" position="relative">
+          <VStack spacing={10}>
+            <Box textAlign="center" maxW="500px">
               <Text
                 fontSize="xs"
                 fontWeight="600"
@@ -488,48 +507,208 @@ export default function Home() {
               >
                 Pricing
               </Text>
+              <Heading as="h2" fontSize="2xl" fontWeight="600" color="white" mb={3}>
+                One product. Fair price.
+              </Heading>
+              <Text color="gray.400" fontSize="md" lineHeight="1.7">
+                Everyone gets the same digest. Try it free for two weeks — no credit card needed. If it's useful, stick around.
+              </Text>
             </Box>
-            <MotionBox
-              bg="rgba(255,255,255,0.02)"
-              border="1px"
-              borderColor="gray.800"
-              borderRadius="xl"
-              p={8}
-              maxW="400px"
-              w="100%"
-              _hover={{ 
-                borderColor: 'cyan.800',
-              }}
-              transition="all 0.3s"
-              whileHover={{ y: -4 }}
-              animation={mounted ? `${float} 6s ease-in-out infinite` : undefined}
-            >
-              <VStack spacing={5} align="stretch">
-                <Box textAlign="center">
-                  <Text fontWeight="600" fontSize="lg" color="white">
-                    AI Infra Pulse
-                  </Text>
-                  <HStack justify="center" mt={2} spacing={1}>
-                    <Text 
-                      fontSize="4xl" 
-                      fontWeight="700" 
-                      bgGradient="linear(to-r, cyan.400, cyan.200)"
-                      bgClip="text"
-                    >
-                      $5
+            
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5} w="100%">
+              {/* Free Trial */}
+              <MotionBox
+                bg="rgba(255,255,255,0.02)"
+                border="1px"
+                borderColor="gray.800"
+                borderRadius="xl"
+                p={6}
+                _hover={{ borderColor: 'gray.700' }}
+                transition="all 0.3s"
+                whileHover={{ y: -2 }}
+              >
+                <VStack spacing={4} align="stretch" h="100%">
+                  <Box>
+                    <Text fontWeight="600" fontSize="lg" color="white" mb={1}>
+                      Try it free
                     </Text>
-                    <Text color="gray.500" fontSize="md">
+                    <Text fontSize="sm" color="gray.500">
+                      See if it's for you
+                    </Text>
+                  </Box>
+                  <HStack spacing={1} align="baseline">
+                    <Text fontSize="3xl" fontWeight="600" color="white">
+                      $0
+                    </Text>
+                    <Text color="gray.500" fontSize="sm">
+                      for 14 days
+                    </Text>
+                  </HStack>
+                  <Divider borderColor="gray.800" />
+                  <VStack align="stretch" spacing={3} flex={1}>
+                    {[
+                      'Full daily digest',
+                      'All signals included',
+                      'No credit card needed',
+                    ].map((feature, i) => (
+                      <HStack key={i} spacing={2}>
+                        <Box as={FiCheck} color="gray.500" flexShrink={0} />
+                        <Text fontSize="sm" color="gray.400">{feature}</Text>
+                      </HStack>
+                    ))}
+                  </VStack>
+                  <Button
+                    w="100%"
+                    variant="outline"
+                    color="gray.300"
+                    borderColor="gray.700"
+                    borderRadius="lg"
+                    _hover={{ 
+                      bg: 'rgba(255,255,255,0.03)',
+                      borderColor: 'gray.600',
+                      transform: 'translateY(-1px)'
+                    }}
+                    _active={{ transform: 'translateY(0)' }}
+                    size="md"
+                    fontWeight="500"
+                    transition="all 0.2s ease"
+                  >
+                    Try it out
+                  </Button>
+                </VStack>
+              </MotionBox>
+
+              {/* Monthly */}
+              <MotionBox
+                bg="rgba(255,255,255,0.03)"
+                border="1px"
+                borderColor="gray.700"
+                borderRadius="xl"
+                p={6}
+                _hover={{ borderColor: 'gray.600' }}
+                transition="all 0.3s"
+                whileHover={{ y: -2 }}
+              >
+                <VStack spacing={4} align="stretch" h="100%">
+                  <Box>
+                    <Text fontWeight="600" fontSize="lg" color="white" mb={1}>
+                      Monthly
+                    </Text>
+                    <Text fontSize="sm" color="gray.500">
+                      Pay as you go
+                    </Text>
+                  </Box>
+                  <HStack spacing={1} align="baseline">
+                    <Text 
+                      fontSize="3xl" 
+                      fontWeight="600" 
+                      color="white"
+                    >
+                      $2
+                    </Text>
+                    <Text color="gray.500" fontSize="sm">
                       / month
                     </Text>
                   </HStack>
-                </Box>
-                <Divider borderColor="gray.800" />
-                <Text fontSize="sm" color="gray.400" textAlign="center">
-                  Daily digest. Cancel anytime. No ads. No upsells.
-                </Text>
-                <WaitlistForm />
-              </VStack>
-            </MotionBox>
+                  <Divider borderColor="gray.800" />
+                  <VStack align="stretch" spacing={3} flex={1}>
+                    {[
+                      'Full daily digest',
+                      'All signals included',
+                      'Cancel anytime',
+                    ].map((feature, i) => (
+                      <HStack key={i} spacing={2}>
+                        <Box as={FiCheck} color="cyan.500" flexShrink={0} />
+                        <Text fontSize="sm" color="gray.300">{feature}</Text>
+                      </HStack>
+                    ))}
+                  </VStack>
+                  <Button
+                    w="100%"
+                    bg="white"
+                    color="gray.900"
+                    borderRadius="lg"
+                    _hover={{ 
+                      transform: 'translateY(-1px)',
+                      boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)'
+                    }}
+                    _active={{ transform: 'translateY(0)' }}
+                    size="md"
+                    fontWeight="500"
+                    transition="all 0.2s ease"
+                  >
+                    Subscribe
+                  </Button>
+                </VStack>
+              </MotionBox>
+
+              {/* Annual */}
+              <MotionBox
+                bg="rgba(255,255,255,0.02)"
+                border="1px"
+                borderColor="gray.800"
+                borderRadius="xl"
+                p={6}
+                _hover={{ borderColor: 'gray.700' }}
+                transition="all 0.3s"
+                whileHover={{ y: -2 }}
+              >
+                <VStack spacing={4} align="stretch" h="100%">
+                  <Box>
+                    <Text fontWeight="600" fontSize="lg" color="white" mb={1}>
+                      Yearly
+                    </Text>
+                    <Text fontSize="sm" color="gray.500">
+                      Two months free
+                    </Text>
+                  </Box>
+                  <HStack spacing={1} align="baseline">
+                    <Text fontSize="3xl" fontWeight="600" color="white">
+                      $20
+                    </Text>
+                    <Text color="gray.500" fontSize="sm">
+                      / year
+                    </Text>
+                  </HStack>
+                  <Divider borderColor="gray.800" />
+                  <VStack align="stretch" spacing={3} flex={1}>
+                    {[
+                      'Full daily digest',
+                      'All signals included',
+                      'Lock in this price',
+                    ].map((feature, i) => (
+                      <HStack key={i} spacing={2}>
+                        <Box as={FiCheck} color="gray.500" flexShrink={0} />
+                        <Text fontSize="sm" color="gray.400">{feature}</Text>
+                      </HStack>
+                    ))}
+                  </VStack>
+                  <Button
+                    w="100%"
+                    variant="outline"
+                    color="gray.300"
+                    borderColor="gray.700"
+                    borderRadius="lg"
+                    _hover={{ 
+                      bg: 'rgba(255,255,255,0.03)',
+                      borderColor: 'gray.600',
+                      transform: 'translateY(-1px)'
+                    }}
+                    _active={{ transform: 'translateY(0)' }}
+                    size="md"
+                    fontWeight="500"
+                    transition="all 0.2s ease"
+                  >
+                    Subscribe yearly
+                  </Button>
+                </VStack>
+              </MotionBox>
+            </SimpleGrid>
+
+            {/* Honest note */}
+            <Text fontSize="sm" color="gray.500" textAlign="center" maxW="400px">
+              No tricks. Same content for everyone. Cancel with one click. Payments handled securely by Stripe.
+            </Text>
           </VStack>
         </Container>
       </Box>

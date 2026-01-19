@@ -4,190 +4,231 @@ import {
   Box,
   Text,
   VStack,
+  HStack,
   Badge,
   Divider,
+  SimpleGrid,
 } from '@chakra-ui/react'
-import { keyframes } from '@emotion/react'
 import { motion } from 'framer-motion'
 
 const MotionBox = motion(Box)
 
-const scanline = keyframes`
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-`
-
-const borderGlow = keyframes`
-  0%, 100% { 
-    border-color: rgba(6, 182, 212, 0.3);
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.1), inset 0 0 20px rgba(6, 182, 212, 0.02);
+// Signal strength indicator
+const SignalDot = ({ strength }: { strength: 'strong' | 'mixed' | 'weak' }) => {
+  const colors = {
+    strong: 'green.400',
+    mixed: 'yellow.400',
+    weak: 'red.400',
   }
-  50% { 
-    border-color: rgba(6, 182, 212, 0.5);
-    box-shadow: 0 0 40px rgba(6, 182, 212, 0.15), inset 0 0 30px rgba(6, 182, 212, 0.03);
-  }
-`
+  return (
+    <Box
+      w={2}
+      h={2}
+      borderRadius="full"
+      bg={colors[strength]}
+      flexShrink={0}
+    />
+  )
+}
 
 export default function ExampleDigest() {
   return (
     <MotionBox
-      bg="rgba(10, 10, 15, 0.8)"
+      bg="rgba(15, 15, 20, 0.9)"
       border="1px solid"
-      borderColor="cyan.900"
-      borderRadius="lg"
-      p={6}
-      fontFamily="mono"
-      fontSize="sm"
-      maxW="600px"
+      borderColor="gray.800"
+      borderRadius="xl"
+      p={{ base: 5, md: 6 }}
+      maxW="650px"
       mx="auto"
       position="relative"
       overflow="hidden"
-      animation={`${borderGlow} 4s ease-in-out infinite`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      {/* Scanline effect */}
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        height="30%"
-        bgGradient="linear(to-b, rgba(6, 182, 212, 0.03) 0%, transparent 100%)"
-        animation={`${scanline} 4s linear infinite`}
-        pointerEvents="none"
-      />
-      
-      {/* Corner accents */}
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        width="20px"
-        height="20px"
-        borderTop="2px solid"
-        borderLeft="2px solid"
-        borderColor="cyan.500"
-        borderTopLeftRadius="lg"
-      />
-      <Box
-        position="absolute"
-        top={0}
-        right={0}
-        width="20px"
-        height="20px"
-        borderTop="2px solid"
-        borderRight="2px solid"
-        borderColor="cyan.500"
-        borderTopRightRadius="lg"
-      />
-      <Box
-        position="absolute"
-        bottom={0}
-        left={0}
-        width="20px"
-        height="20px"
-        borderBottom="2px solid"
-        borderLeft="2px solid"
-        borderColor="cyan.500"
-        borderBottomLeftRadius="lg"
-      />
-      <Box
-        position="absolute"
-        bottom={0}
-        right={0}
-        width="20px"
-        height="20px"
-        borderBottom="2px solid"
-        borderRight="2px solid"
-        borderColor="cyan.500"
-        borderBottomRightRadius="lg"
-      />
+      <VStack align="stretch" spacing={5} position="relative">
+        {/* Header */}
+        <HStack justify="space-between" align="flex-start" flexWrap="wrap" gap={2}>
+          <Box>
+            <Text color="gray.500" fontSize="xs" mb={1.5} letterSpacing="wide">
+              AI INFRA PULSE · Jan 19, 2026
+            </Text>
+            <HStack spacing={3}>
+              <Badge 
+                bg="rgba(34, 197, 94, 0.1)" 
+                color="green.400" 
+                fontSize="xs"
+                px={2}
+                py={0.5}
+                borderRadius="md"
+                fontWeight="500"
+              >
+                🟢 Score: 8/10
+              </Badge>
+              <Text fontSize="xs" color="gray.500">
+                Bullish · Near-term
+              </Text>
+            </HStack>
+          </Box>
+        </HStack>
 
-      <VStack align="stretch" spacing={4} position="relative">
-        <Box>
-          <Text color="gray.500" fontSize="xs" mb={1} letterSpacing="wider">
-            AI INFRA PULSE · Jan 18, 2026
+        {/* Summary */}
+        <Box
+          bg="rgba(255,255,255,0.02)"
+          borderRadius="lg"
+          p={4}
+          borderLeft="2px solid"
+          borderColor="cyan.800"
+        >
+          <Text fontSize="sm" color="gray.300" lineHeight="1.7">
+            The AI infrastructure market shows strong growth signals, particularly in foundry and memory sectors. However, regulatory risks from U.S.-China tensions and Nvidia's supply constraints introduce uncertainty.
           </Text>
-          <Badge 
-            bg="rgba(234, 179, 8, 0.15)" 
-            color="yellow.400" 
-            fontSize="xs"
-            border="1px solid"
-            borderColor="yellow.800"
-          >
-            MIXED SIGNAL
-          </Badge>
+        </Box>
+
+        {/* TL;DR */}
+        <Box>
+          <Text fontSize="xs" fontWeight="600" color="gray.500" textTransform="uppercase" letterSpacing="wider" mb={3}>
+            Quick take
+          </Text>
+          <VStack align="stretch" spacing={2}>
+            {[
+              { topic: 'AI chip demand', signal: 'strong growth signals' },
+              { topic: 'Nvidia supply', signal: 'risk from regulatory issues' },
+              { topic: 'Foundry investments', signal: 'TSMC capex expansion is bullish' },
+            ].map((item, i) => (
+              <HStack key={i} fontSize="sm" spacing={2}>
+                <Text color="gray.500">If you care about</Text>
+                <Text color="white" fontWeight="500">{item.topic}</Text>
+                <Text color="gray.500">→</Text>
+                <Text color="gray.300">{item.signal}</Text>
+              </HStack>
+            ))}
+          </VStack>
         </Box>
 
         <Divider borderColor="gray.800" />
 
+        {/* Signal Sources */}
         <Box>
-          <Text fontWeight="600" color="cyan.400" mb={2}>
-            What changed
+          <Text fontSize="xs" fontWeight="600" color="gray.500" textTransform="uppercase" letterSpacing="wider" mb={3}>
+            Signal sources
           </Text>
-          <Text color="gray.400" fontSize="sm" lineHeight="1.8">
-            • TSMC raised Q1 capex guidance by 8%
-            <br />
-            • EU AI Act enforcement begins March 1
-            <br />
-            • Hyperscaler power purchase agreements slowing in APAC
-          </Text>
-        </Box>
-
-        <Box>
-          <Text fontWeight="600" color="green.400" mb={2}>
-            + Positive signals
-          </Text>
-          <Text color="gray.400" fontSize="sm" lineHeight="1.8">
-            • Memory pricing stabilizing after 6-month decline
-            <br />
-            • New data center permits up 12% YoY (NA)
-          </Text>
-        </Box>
-
-        <Box>
-          <Text fontWeight="600" color="red.400" mb={2}>
-            − Negative signals
-          </Text>
-          <Text color="gray.400" fontSize="sm" lineHeight="1.8">
-            • Grid interconnect delays in 3 major US markets
-            <br />
-            • Inference chip lead times extending
-          </Text>
-        </Box>
-
-        <Box>
-          <Text fontWeight="600" color="gray.500" mb={2}>
-            ○ Not happening yet
-          </Text>
-          <Text color="gray.400" fontSize="sm" lineHeight="1.8">
-            • No major hyperscaler capex cuts announced
-            <br />
-            • Enterprise AI adoption still growing (surveys)
-          </Text>
-        </Box>
-
-        <Box>
-          <Text fontWeight="600" color="purple.400" mb={2}>
-            → Watch next
-          </Text>
-          <Text color="gray.400" fontSize="sm" lineHeight="1.8">
-            • NVIDIA earnings call (Feb 21)
-            <br />
-            • EU compliance deadline responses
-          </Text>
+          <SimpleGrid columns={2} spacing={2}>
+            {[
+              { name: 'Memory', strength: 'strong' as const, note: 'capex expanding' },
+              { name: 'Foundry', strength: 'strong' as const, note: 'earnings beat' },
+              { name: 'GPU', strength: 'weak' as const, note: 'supply constraints' },
+              { name: 'Data Center', strength: 'mixed' as const, note: 'regulatory risks' },
+              { name: 'Regulation', strength: 'weak' as const, note: 'elevated risks' },
+              { name: 'Macro', strength: 'mixed' as const, note: 'geopolitical tension' },
+            ].map((item, i) => (
+              <HStack key={i} spacing={2} fontSize="xs">
+                <SignalDot strength={item.strength} />
+                <Text color="gray.400">{item.name}</Text>
+                <Text color="gray.600">·</Text>
+                <Text color="gray.500">{item.note}</Text>
+              </HStack>
+            ))}
+          </SimpleGrid>
         </Box>
 
         <Divider borderColor="gray.800" />
 
-        <Box>
-          <Text fontSize="xs" color="gray.500">
-            <Text as="span" color="cyan.500">Confidence:</Text> Medium · <Text as="span" color="cyan.500">Horizon:</Text> 2-4 weeks
+        {/* What Changed / Positive / Negative */}
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+          <Box>
+            <Text fontSize="xs" fontWeight="600" color="cyan.500" mb={2}>
+              What changed
+            </Text>
+            <VStack align="stretch" spacing={1.5}>
+              {[
+                'OpenAI $10B Cerebras deal',
+                'TSMC record profit surge',
+                'SK Hynix accelerates fab',
+              ].map((item, i) => (
+                <Text key={i} fontSize="xs" color="gray.400">• {item}</Text>
+              ))}
+            </VStack>
+          </Box>
+          <Box>
+            <Text fontSize="xs" fontWeight="600" color="green.400" mb={2}>
+              Positive signals
+            </Text>
+            <VStack align="stretch" spacing={1.5}>
+              {[
+                'TSMC $250B US investment',
+                'Strong AI chip demand',
+                'Higgsfield $1.3B valuation',
+              ].map((item, i) => (
+                <Text key={i} fontSize="xs" color="gray.400">• {item}</Text>
+              ))}
+            </VStack>
+          </Box>
+          <Box>
+            <Text fontSize="xs" fontWeight="600" color="red.400" mb={2}>
+              Negative signals
+            </Text>
+            <VStack align="stretch" spacing={1.5}>
+              {[
+                'Nvidia H200 production halt',
+                'China customs Nvidia ban',
+                'US-China regulatory risk',
+              ].map((item, i) => (
+                <Text key={i} fontSize="xs" color="gray.400">• {item}</Text>
+              ))}
+            </VStack>
+          </Box>
+        </SimpleGrid>
+
+        <Divider borderColor="gray.800" />
+
+        {/* Watch / Not Happening */}
+        <HStack align="flex-start" spacing={6} flexWrap="wrap">
+          <Box flex={1} minW="200px">
+            <Text fontSize="xs" fontWeight="600" color="purple.400" mb={2}>
+              Watch next
+            </Text>
+            <VStack align="stretch" spacing={1}>
+              {[
+                'TSMC earnings report',
+                'US-China tech developments',
+                'Nvidia supply response',
+              ].map((item, i) => (
+                <Text key={i} fontSize="xs" color="gray.400">→ {item}</Text>
+              ))}
+            </VStack>
+          </Box>
+          <Box flex={1} minW="200px">
+            <Text fontSize="xs" fontWeight="600" color="gray.500" mb={2}>
+              Not happening yet
+            </Text>
+            <VStack align="stretch" spacing={1}>
+              {[
+                'No major order cancellations',
+                'No significant capacity cuts',
+              ].map((item, i) => (
+                <Text key={i} fontSize="xs" color="gray.500">○ {item}</Text>
+              ))}
+            </VStack>
+          </Box>
+        </HStack>
+
+        <Divider borderColor="gray.800" />
+
+        {/* Footer */}
+        <HStack justify="space-between" fontSize="xs" color="gray.500">
+          <Text>
+            <Text as="span" color="gray.400">Confidence:</Text> Medium
           </Text>
-        </Box>
+          <Text>
+            <Text as="span" color="gray.400">Horizon:</Text> Near-term (weeks)
+          </Text>
+          <Text>
+            <Text as="span" color="gray.400">Noise:</Text> Elevated
+          </Text>
+        </HStack>
       </VStack>
     </MotionBox>
   )
