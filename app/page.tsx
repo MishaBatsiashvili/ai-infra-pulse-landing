@@ -374,68 +374,61 @@ export default function Home() {
           height="1px"
           bgGradient="linear(to-r, transparent 0%, gray.800 50%, transparent 100%)"
         />
-        <Container maxW="960px">
-          <VStack spacing={8} textAlign="center" mb={10}>
+        <Container maxW="800px">
+          <VStack spacing={8} textAlign="center" mb={8}>
             <Box>
               <Text
                 fontSize="xs"
-                fontWeight="600"
-                color="cyan.500"
+                fontWeight="500"
+                color="gray.500"
                 textTransform="uppercase"
                 letterSpacing="widest"
                 mb={3}
               >
-                What you get each day
+                What's inside
               </Text>
               <Heading as="h2" fontSize="xl" fontWeight="600" color="white">
-                A short digest you can read in under 2 minutes.
+                A short digest you can read in 2 minutes.
               </Heading>
             </Box>
           </VStack>
-          <SimpleGrid columns={{ base: 2, md: 3 }} spacing={5}>
+          <VStack spacing={2} align="stretch">
             {[
-              { icon: FiZap, label: 'What changed', color: 'cyan.400' },
-              { icon: FiCheck, label: 'Positive signals', color: 'green.400' },
-              { icon: FiTrendingDown, label: 'Negative signals', color: 'red.400' },
-              { icon: FiEye, label: 'What is NOT happening yet', color: 'gray.400' },
-              { icon: FiActivity, label: 'What to watch next', color: 'purple.400' },
-              { icon: FiClock, label: 'Confidence + time horizon', color: 'orange.400' },
+              { icon: FiZap, label: 'What changed', desc: 'Key developments from the past 24 hours', color: 'cyan.400' },
+              { icon: FiCheck, label: 'Positive signals', desc: 'What looks good in the data', color: 'green.400' },
+              { icon: FiTrendingDown, label: 'Negative signals', desc: 'What shows stress or slowdown', color: 'red.400' },
+              { icon: FiEye, label: 'Not happening yet', desc: 'Important non-events worth noting', color: 'gray.500' },
+              { icon: FiActivity, label: 'What to watch', desc: 'Upcoming catalysts and dates', color: 'purple.400' },
+              { icon: FiClock, label: 'Confidence level', desc: 'How sure we are, and the time horizon', color: 'yellow.400' },
             ].map((item, i) => (
-              <MotionBox
+              <Box
                 key={i}
-                bg="rgba(255,255,255,0.02)"
-                border="1px"
-                borderColor="gray.800"
+                py={3}
+                px={4}
                 borderRadius="lg"
-                p={5}
-                textAlign="center"
-                _hover={{ 
-                  borderColor: 'cyan.800',
-                  bg: 'rgba(6, 182, 212, 0.03)'
-                }}
-                transition="all 0.3s"
-                cursor="default"
-                whileHover={{ y: -6, scale: 1.02 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                // @ts-ignore
-                transition={{ delay: i * 0.1 }}
+                bg="rgba(255,255,255,0.02)"
+                _hover={{ bg: 'rgba(255,255,255,0.04)' }}
+                transition="all 0.2s"
               >
-                <Box
-                  as={item.icon}
-                  size="24px"
-                  color={item.color}
-                  mx="auto"
-                  mb={3}
-                  filter={`drop-shadow(0 0 8px ${item.color === 'cyan.400' ? 'rgba(6, 182, 212, 0.5)' : 'transparent'})`}
-                />
-                <Text fontSize="sm" color="gray.300" fontWeight="500">
-                  {item.label}
-                </Text>
-              </MotionBox>
+                <HStack spacing={4}>
+                  <Box
+                    as={item.icon}
+                    size="16px"
+                    color={item.color}
+                    flexShrink={0}
+                  />
+                  <HStack justify="space-between" align="center" flex={1} flexWrap="wrap" gap={2}>
+                    <Text fontSize="sm" color="white" fontWeight="500">
+                      {item.label}
+                    </Text>
+                    <Text fontSize="sm" color="gray.500">
+                      {item.desc}
+                    </Text>
+                  </HStack>
+                </HStack>
+              </Box>
             ))}
-          </SimpleGrid>
+          </VStack>
         </Container>
       </Box>
 

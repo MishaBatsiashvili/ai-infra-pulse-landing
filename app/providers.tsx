@@ -1,8 +1,14 @@
 'use client'
 
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme, type ThemeConfig } from '@chakra-ui/react'
+
+const config: ThemeConfig = {
+  initialColorMode: 'dark',
+  useSystemColorMode: false,
+}
 
 const theme = extendTheme({
+  config,
   fonts: {
     heading: `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`,
     body: `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`,
@@ -25,10 +31,11 @@ const theme = extendTheme({
     global: {
       'html': {
         scrollBehavior: 'smooth',
+        colorScheme: 'dark',
       },
       'body': {
-        bg: '#fafafa',
-        color: 'gray.800',
+        bg: '#0a0a0f',
+        color: 'gray.100',
       },
     },
   },
@@ -44,5 +51,3 @@ const theme = extendTheme({
 export function Providers({ children }: { children: React.ReactNode }) {
   return <ChakraProvider theme={theme}>{children}</ChakraProvider>
 }
-
-
