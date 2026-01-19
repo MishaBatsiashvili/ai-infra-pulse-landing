@@ -54,6 +54,9 @@ export default function Navbar() {
             <Text fontWeight="600" fontSize="md" color="white">
               AI Infra Pulse
             </Text>
+            <Text fontSize="xs" color="gray.500" ml={1}>
+              Coming soon
+            </Text>
           </HStack>
           <Button
             size="sm"
@@ -63,10 +66,10 @@ export default function Navbar() {
             borderRadius="md"
             _hover={{ bg: 'gray.100' }}
             _focus={{ boxShadow: '0 0 0 2px white' }}
-            onClick={() => scrollToSection('pricing')}
-            aria-label="Start free trial"
+            onClick={() => scrollToSection('waitlist')}
+            aria-label="Join the waitlist"
           >
-            Try free
+            Join waitlist
           </Button>
         </Flex>
       </Container>

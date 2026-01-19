@@ -53,7 +53,8 @@ export default function ExampleDigest() {
             <HStack spacing={1}>
               <Text color="green.400">🟢 8/10</Text>
             </HStack>
-            <Text color="gray.500">Bullish · Near-term</Text>
+            {/* Neutral label instead of "Bullish" */}
+            <Text color="gray.500">Expansionary · Near-term</Text>
           </HStack>
         </HStack>
 
@@ -79,9 +80,9 @@ export default function ExampleDigest() {
             {[
               { topic: 'AI chip demand', signal: 'strong growth signals', positive: true },
               { topic: 'Nvidia supply', signal: 'regulatory risk', positive: false },
-              { topic: 'TSMC capex', signal: 'bullish expansion', positive: true },
+              { topic: 'TSMC capex', signal: 'expanding', positive: true },
             ].map((item, i) => (
-              <HStack key={i} fontSize="xs" spacing={2}>
+              <HStack key={i} fontSize="xs" spacing={2} flexWrap="wrap">
                 <Text color="gray.500">If you care about</Text>
                 <Text color="white" fontWeight="500">{item.topic}</Text>
                 <Text color="gray.500">→</Text>
